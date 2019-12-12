@@ -1,5 +1,5 @@
 let todo = getSavedTodo();
-const search = {
+let search = {
     text: '',
     hideCompleted: false
 }
@@ -15,7 +15,11 @@ document.querySelector('#searchTodo').addEventListener('input', function(s) {
 document.querySelector('#mainForm').addEventListener('submit', function(s) {
     s.preventDefault();
     let add = s.target.elements.todo.value;
-    todo.push({ text: add, completed: false })
+    todo.push({
+        id: uuidv4(),
+        text: add,
+        completed: false
+    })
     saveTodos(todo)
     renderTodo(todo, search)
     s.target.elements.todo.value = ''

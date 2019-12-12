@@ -1,6 +1,6 @@
 const getSavedTodo = function() {
     const todoJSON = localStorage.getItem('todo')
-
+    
     if (todoJSON !== null) {
         return JSON.parse(todoJSON)
     } else {
@@ -14,9 +14,8 @@ const saveTodos = function(todo) {
 
 const renderTodo = function(todo, search) {
 
-    let filteredTodo = todo.filter(function(todo) {
+    let filteredTodo = todo.filter(function (todo) {
         return todo.text.toLowerCase().includes(search.text.toLowerCase())
-        debugger
     })
     filteredTodo = filteredTodo.filter(function(todo) {
         if (search.hideCompleted) {
@@ -34,6 +33,15 @@ const renderTodo = function(todo, search) {
     })
 }
 
+const removeTodo = function (id) {
+    const todoIndex = todo.findIndex(function (todo) {
+        return todo.id === id
+    })
+    if (todoIndex > -1) {
+        todo.splice(todoIndex, 1)
+    }
+}
+
 const generateTodoDOM = function(tod) {
     const todoEl = document.createElement('div');
     const textEl = document.createElement('span')
@@ -42,6 +50,11 @@ const generateTodoDOM = function(tod) {
 
     checkBox.type = 'checkbox';
     button.textContent = 'x';
+    button.addEventListener('click', function () {
+        removeTodo(tod)
+        saveTodos(tod)
+        renderTodo(tod)
+    })
 
     todoEl.appendChild(checkBox)
     todoEl.appendChild(textEl)
